@@ -1,0 +1,56 @@
+body {
+    background-color: #f3ecef;
+    font-family: Georgia, serif;
+    }
+
+#zoznamVyrokov p {
+    white-space: pre-line;
+}
+
+
+
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    }
+
+
+
+#zoznamVyrokov p {
+    background-color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin: 0 0 15px 0;
+    
+}
+
+.lajky {
+    display: block;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.vyrok {
+    background-color: white;
+    border-radius: 10px;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    font-size: 18px;
+    
+    
+}
+
+.text {
+    white-space: pre-line;
+}
+
+.vyrok {
+    line-height: 1.2;
+}
