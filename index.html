@@ -5,23 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rodinný archív výrokov</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC+Guides&display=swap" rel="stylesheet">
+
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <button id="menuButton">
+☰
+</button>
+
+<div id="sidebar">
+
+<h2>Menu</h2>
+
+<div id="menuObsah">
+
+</div>
+
+</div>
+
+
     <div class="container">
 
-    <h1>Rodinný archív výrokov</h1>
+  <h1>Rodinný archív výrokov</h1>
+
+
+
+
+<div id="ovladanie">
+
+    <button id="otvorFormular">
+
+➕ Pridať výrok
+</button>
+
+<div id="formular" style="display:none;">
+
+<h2>Nový výrok</h2>
+
+<textarea
+id="novyVyrok"
+placeholder="Napíš výrok..."
+></textarea>
+
+<input
+type="number"
+id="rok"
+placeholder="Rok (nepovinné)"
+>
+
+<input
+type="text"
+id="pridal"
+placeholder="Pridal (nepovinné)"
+>
+
+<h3>Osoby (nepovinné)</h3>
+
+<div id="zoznamOsob">
+Načítavam osoby...
+</div>
+
+<h3>Kategória (nepovinné)</h3>
+
+<div id="zoznamKategorii">
+Načítavam kategórie...
+</div>
+
+<button id="ulozVyrok">
+Uložiť
+</button>
+
+</div>
+
+<label for="filterOsoba">
+Osoba:
+</label>
+
+<select id="filterOsoba">
+
+<option value="">
+Všetci
+</option>
+
+</select>
+
+<label for="zoradenie">
+Zoradenie:
+</label>
+
+<select id="zoradenie">
+
+<option value="najnovsiepridane">
+Najnovšie pridané
+</option>
+
+<option value="najnovsie">
+Najnovšie podľa roku
+</option>
+
+<option value="najstarsie">
+Najstaršie podľa roku
+</option>
+
+<option value="najoblubenejsie">
+Najobľúbenejšie
+</option>
+
+</select>
+
+
+<h3>Kategórie</h3>
+
+<div id="filterKategorie">
+
+<button data-kategoria="">
+Všetky
+</button>
+
+</div>
 
 
     <hr>
 
+<div id="statistiky"></div>
 
-
-    <div id="zoznamVyrokov">
-    Tu sa budú zobrazovať výroky.
 </div>
+
+    <div id="zoznamVyrokov"></div>
 
  </div>
 
