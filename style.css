@@ -131,7 +131,7 @@ h1::after {
 .text {
     white-space: pre-line;
 
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.5;
 
     color: #2f2f2f;
@@ -202,13 +202,13 @@ flex-direction: column;
 
 #sidebar label {
   display: block;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  margin-top: 6px;
+  margin-bottom: 3px;
 }
 
 #sidebar select {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
 #sidebar button {
@@ -231,8 +231,8 @@ flex-direction: column;
 
 
 #sidebar h3 {
-  margin-top: 30px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 #sidebar hr {
@@ -266,7 +266,7 @@ flex-direction: column;
     bottom: 4px;
     right: 4px;
 
-    width: 60px;
+    width: 45px;
 
     transform: rotate(18deg);
 
@@ -340,4 +340,101 @@ margin-top: 40px;
 #menuObsah {
     height: 100%;
     
+}
+
+@media (max-width: 768px) {
+
+    .vyrok:nth-child(even) {
+        margin-left: auto;
+    }
+
+    .vyrok:nth-child(odd) {
+        margin-right: auto;
+    }
+
+}
+
+.rok {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+
+    font-size: 13px;
+
+    color: #9a9a9a;
+}
+
+#nahodnyVyrokBox {
+
+    max-width: 850px;
+
+    margin: 0 auto 15px auto;
+
+    padding: 0;
+
+}
+
+#nahodnyNadpis {
+
+    font-size: 14px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    color: #5b6f94;
+
+    margin-bottom: 12px;
+
+}
+
+#novyNahodnyVyrok {
+
+    margin-top: 12px;
+
+}
+
+#nahodnyVyrok .vyrok {
+
+    background: #eef3fb;
+
+    margin-bottom: 8px;
+
+
+}
+
+#novyNahodnyVyrok {
+
+    padding: 8px 14px;
+
+    border: 1px solid #c9d5ea;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        to bottom,
+        #f7faff,
+        #dce7f8
+    );
+
+    cursor: pointer;
+
+    margin-top: 0px;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+
+    transition: all 0.15s ease;
+}
+
+#novyNahodnyVyrok:hover {
+
+    background: linear-gradient(
+        to bottom,
+        #ffffff,
+        #d3e0f7
+    );
+
+    transform: translateY(-1px);
 }

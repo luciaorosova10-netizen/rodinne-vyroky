@@ -105,7 +105,43 @@ ${kategoria.nazov}
 
 }
 
-async function nacitajVyroky(idsVyrokov = []) {
+async function nacitajRoky() {
+
+  const { data, error } = await mojSupabase
+    .from("vyroky")
+    .select("rok")
+    .not("rok", "is", null);
+
+  console.log(data);
+  console.log(error);
+
+  const roky =
+    [...new Set(data.map(v => v.rok))]
+      .sort((a, b) => b - a);
+
+  let html = "";
+
+  roky.forEach(rok => {
+
+    html += `
+<label>
+<input type="checkbox" value="${rok}">
+${rok}
+</label>
+<br>
+`;
+
+  });
+
+  document.getElementById("zoznamRokov")
+    .innerHTML = html;
+
+}
+
+async function nacitajVyroky(
+  idsVyrokov = [],
+  obnovNahodnyVyrok = true
+) {
 
   const sposobZoradenia =
   document.getElementById("zoradenie").value;
@@ -151,6 +187,8 @@ if (sposobZoradenia === "najoblubenejsie") {
 
 const { data, error } = await query;
 
+vsetkyVyroky = data;
+
   let html = "";
 
   data.forEach((vyrok, index) => {
@@ -160,6 +198,8 @@ const { data, error } = await query;
   html += `
 
 <div class="vyrok">
+
+<div class="rok">${vyrok.rok || ""}</div>
 
 <img
   src="${ikonka}"
@@ -181,6 +221,59 @@ ${vyrok.likes}
 
   document.getElementById("zoznamVyrokov").innerHTML = html;
 
+if (obnovNahodnyVyrok) {
+  zobrazNahodnyVyrok();
+}
+
+}
+
+function zobrazNahodnyVyrok() {
+
+  if (vsetkyVyroky.length === 0) {
+    return;
+  }
+
+  let vyrok;
+
+  do {
+
+    vyrok =
+      vsetkyVyroky[
+        Math.floor(
+          Math.random() * vsetkyVyroky.length
+        )
+      ];
+
+  } while (
+    vsetkyVyroky.length > 1 &&
+    vyrok.id === poslednyNahodnyId
+  );
+
+  poslednyNahodnyId = vyrok.id;
+
+  aktualnyNahodnyVyrok = vyrok;
+
+  document.getElementById("nahodnyVyrok").innerHTML = `
+
+<div class="vyrok">
+
+<div class="rok">${vyrok.rok || ""}</div>
+
+<div class="text">${vyrok.text}</div>
+
+<span
+class="lajky"
+onclick="lajkniVyrok(${vyrok.id})"
+>
+Zvýš obľúbenosť výroku →
+<span class="srdce">❤️</span>
+${vyrok.likes}
+</span>
+
+</div>
+
+`;
+
 }
 
 async function zaznamenajNavstevu() {
@@ -194,7 +287,13 @@ async function zaznamenajNavstevu() {
 
 }
 
-zaznamenajNavstevu();
+const jeAdminNavsteva =
+  new URLSearchParams(window.location.search)
+    .get("admin") === "1";
+
+if (!jeAdminNavsteva) {
+  zaznamenajNavstevu();
+}
 
 const ikonky = [
   "obrazky/lienka.png",
@@ -208,10 +307,17 @@ const ikonky = [
   "obrazky/ruza.png"
 ];
 
+let vsetkyVyroky = [];
+
+let poslednyNahodnyId = null;
+
+let aktualnyNahodnyVyrok = null;
+
 nacitajVyroky();
 nacitajOsoby();
 nacitajKategorie();
 nacitajFilterKategorie();
+nacitajRoky();
 nacitajStatistiky();
 
 async function lajkniVyrok(id) {
@@ -237,7 +343,32 @@ console.log("Update error:", updateError);
 console.log("Nový počet:", noveLajky);
 console.log("ID výroku:", id);
 
-await nacitajVyroky();
+await nacitajVyroky([], false);
+
+if (aktualnyNahodnyVyrok) {
+
+  document.getElementById("nahodnyVyrok").innerHTML = `
+
+<div class="vyrok">
+
+<div class="rok">${aktualnyNahodnyVyrok.rok || ""}</div>
+
+<div class="text">${aktualnyNahodnyVyrok.text}</div>
+
+<span
+class="lajky"
+onclick="lajkniVyrok(${aktualnyNahodnyVyrok.id})"
+>
+Zvýš obľúbenosť výroku →
+<span class="srdce">❤️</span>
+${noveLajky}
+</span>
+
+</div>
+
+`;
+
+}
 
 }
 
@@ -457,7 +588,65 @@ menuButton.addEventListener("click", () => {
 
 });
 
+document.addEventListener("click", (event) => {
+
+  const klikNaMenu =
+    sidebar.contains(event.target);
+
+  const klikNaTlacidlo =
+    menuButton.contains(event.target);
+
+  if (
+    sidebar.classList.contains("open") &&
+    !klikNaMenu &&
+    !klikNaTlacidlo
+  ) {
+    sidebar.classList.remove("open");
+  }
+
+});
+
 
 document.getElementById("menuObsah").appendChild(
   document.getElementById("ovladanie")
 );
+
+document
+  .getElementById("novyNahodnyVyrok")
+  .addEventListener("click", () => {
+
+    zobrazNahodnyVyrok();
+
+});
+
+document.getElementById("zoznamRokov")
+.addEventListener("change", async () => {
+
+  const oznaceneRoky =
+    document.querySelectorAll(
+      '#zoznamRokov input:checked'
+    );
+
+  const roky =
+    [...oznaceneRoky]
+      .map(input => Number(input.value));
+
+  if (roky.length === 0) {
+    await nacitajVyroky();
+    return;
+  }
+
+  const { data, error } = await mojSupabase
+    .from("vyroky")
+    .select("id")
+    .in("rok", roky);
+
+  console.log(data);
+  console.log(error);
+
+  const idsVyrokov =
+    data.map(vyrok => vyrok.id);
+
+  await nacitajVyroky(idsVyrokov);
+
+});
