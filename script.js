@@ -208,6 +208,12 @@ vsetkyVyroky = data;
 
 <div class="text">${vyrok.text}</div>
 
+${vyrok.pridal ? `
+<div class="pridal">
+Pridal: ${vyrok.pridal}
+</div>
+` : ""}
+
 
 <span class="lajky" onclick="lajkniVyrok(${vyrok.id})">
 Zvýš obľúbenosť výroku →
